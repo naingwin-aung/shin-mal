@@ -46,6 +46,7 @@ const MenuCardFlex = styled.div`
   justify-content: center;
   gap: 17px;
   flex-wrap: wrap;
+  margin-bottom: 80px;
 
   @media (max-width: 464px) {
     gap: 23px;
