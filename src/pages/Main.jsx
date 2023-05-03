@@ -1,48 +1,53 @@
 import styled from "styled-components";
 import TokenCard from "../components/TokenCard";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
-// import Pagination from "../components/Pagination";
 
 const Main = () => {
   const [numbers, setNumbers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [canLoadMore, setCanLoadMore] = useState(false);
-  const limit = 15;
-  const containerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [lastPage, setLastPage] = useState(false);
 
   useEffect(() => {
-    getTokens(currentPage);
-  }, []);
+    getTokens();
+  }, [currentPage]);
 
-  const getTokens = async (page) => {
-    setIsLoading(true);
-    const { data } = await axiosClient.get("/tokens", {
-      params: {
-        page: page,
-        limit: limit,
-      },
-    });
-    setTotal(data.total);
-    setNumbers((prevNumbers) => [...prevNumbers, ...data.data]);
-    setCanLoadMore(data.can_load_more);
-    setCurrentPage(page);
-    setIsLoading(false);
+  const handlescroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setIsLoading(true);
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.lastElementChild.scrollIntoView();
+    window.addEventListener("scroll", handlescroll);
+
+    return () => window.removeEventListener("scroll", handlescroll);
+  }, []);
+
+  const getTokens = async () => {
+    if (!lastPage) {
+      const { data } = await axiosClient.get("/tokens", {
+        params: {
+          page: currentPage,
+          limit: 21,
+        },
+      });
+      setNumbers((prev) => [...prev, ...data.data]);
+      setLastPage(data.data.length === 0);
     }
-  }, [numbers]);
+    setIsLoading(false);
+  };
 
   let content;
 
-  content = numbers.length > 0 && (
-    <TokenCardFlex ref={containerRef}>
+  content = (
+    <TokenCardFlex>
       {numbers.map((number, index) => (
         <Link to={`/token/${number.number}/category`} key={index}>
           <TokenCard number={number.number} />
@@ -51,32 +56,11 @@ const Main = () => {
     </TokenCardFlex>
   );
 
-  if (isLoading) {
-    content = <p>Loading......</p>;
-  }
-
   return (
     <>
       <h3 className="mb-3">Tokens</h3>
       {content}
-      {canLoadMore && (
-        <button
-          style={{ marginBottom: "80px" }}
-          onClick={() => {
-            getTokens(currentPage + 1);
-          }}
-        >
-          Load More
-        </button>
-      )}
-      {/* {!isLoading && (
-        <Pagination
-          total={total}
-          limit={limit}
-          onClick={(page) => getTokens(page)}
-          currentPage={currentPage}
-        />
-      )} */}
+      {isLoading && <p>.........................Loading</p>}
     </>
   );
 };
@@ -86,7 +70,7 @@ export default Main;
 const TokenCardFlex = styled.div`
   display: flex;
   justify-content: center;
-  gap: 17px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 60px;
 
