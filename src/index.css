@@ -19,6 +19,7 @@ a, a:visited {
 
 .pagination {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   margin-bottom: 80px;
@@ -26,12 +27,14 @@ a, a:visited {
 
 .pagination button {
   margin: 0 5px;
-  padding: 5px 10px;
+  padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
+  background-color: black;
+  color: white;
 }
 
 .pagination button.active {
-  background-color: #ccc;
+  background-color: #949393;
 }
