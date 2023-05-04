@@ -1,45 +1,60 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import MenuCard from "../components/Layouts/MenuCard";
+import useInfinityScroll from "../hooks/useInfinityScroll";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Menu = () => {
-  const MENU = [
-    {
-      ကြက်သား: ["ကြက်သားမွကြော်", "ကြက်သားဟင်း"],
-    },
-    {
-      oက်သား: ["oက်သားဟင်း"],
-    },
-  ];
+  const navigate = useNavigate();
+  const { categoryId } = useParams();
+  const { value, isLoading } = useInfinityScroll(
+    `/categories/${categoryId}/menus`,
+    "15"
+  );
 
-  const { name } = useParams();
-  const [newMenu, setMenu] = useState([]);
+  let content;
 
-  useEffect(() => {
-    let keys = Object.keys(MENU[0]);
-    let foundKey = keys.find((key) => key === name);
-    const obj = MENU.find((item) => item.hasOwnProperty(foundKey))[foundKey];
-    setMenu(obj);
-  }, []);
+  content = (
+    <>
+      <Wrapper>
+        <div onClick={() => navigate(-1)}>
+          <span className="material-symbols-outlined">arrow_back_ios</span>
+        </div>
+        <h3 onClick={() => navigate(-1)} className="mb-4">
+          {value[0]?.category?.name}
+        </h3>
+      </Wrapper>
+      <MenuCardFlex>
+        {value.map((menu, index) => (
+          <MenuCard key={index} valueName={menu.name} />
+        ))}
+      </MenuCardFlex>
+    </>
+  );
 
   return (
     <>
-      <h3 className="mb-3">Menu</h3>
-      <MenuCardFlex>
-        {newMenu.length > 0 ? (
-          newMenu.map((menu, index) => (
-            <MenuCard key={index} valueName={menu} />
-          ))
-        ) : (
-          <p>not found</p>
-        )}
-      </MenuCardFlex>
+      {content}
+      {isLoading && <p>.........................Loading</p>}
     </>
   );
 };
 
 export default Menu;
+
+const Wrapper = styled.div`
+  display: flex;
+
+  span {
+    font-size: 16px;
+    margin-top: 8px;
+    margin-right: 13px;
+  }
+
+  span,
+  h3 {
+    cursor: pointer;
+  }
+`;
 
 const MenuCardFlex = styled.div`
   display: flex;

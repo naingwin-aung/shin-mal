@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <Category />,
       },
       {
-        path: "/token/:id/category/:name/menu",
+        path: "/token/:id/category/:categoryId/menu",
         element: <Menu />,
       },
     ],
