@@ -1,31 +1,25 @@
-import { useState } from "react";
 import styled from "styled-components";
 import MenuCard from "../components/Layouts/MenuCard";
-import { Link, useParams } from "react-router-dom";
+import useInfinityScroll from "../hooks/useInfinityScroll";
 
 const Menu = () => {
-  const CATEGORIES = [
-    "ကြက်သား",
-    "oက်သား",
-    "အမဲသား",
-    "ဆိတ်သား",
-    "ငါး",
-    "ပုဇွန်",
-  ];
+  const { value, isLoading } = useInfinityScroll("/categories", 15);
 
-  const [categories, setCategories] = useState(CATEGORIES);
-  const { id } = useParams();
+  let content;
+
+  content = (
+    <CategoryCardFlex>
+      {value.map((category, index) => (
+        <MenuCard valueName={category.name} key={index} />
+      ))}
+    </CategoryCardFlex>
+  );
 
   return (
     <>
       <h3 className="mb-3">Categories</h3>
-      <CategoryCardFlex>
-        {categories.map((cat, index) => (
-          <Link key={index} to={`/token/${id}/category/${cat}/menu`}>
-            <MenuCard valueName={cat} />
-          </Link>
-        ))}
-      </CategoryCardFlex>
+      {content}
+      {isLoading && <p>.........................Loading</p>}
     </>
   );
 };
