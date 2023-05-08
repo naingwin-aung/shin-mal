@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useInfinityScroll from "../hooks/useInfinityScroll";
 
 const Main = () => {
-  const { value, isLoading } = useInfinityScroll("/tokens", "21");
+  const { value, isLoading, lastPage } = useInfinityScroll("/tokens", "21");
 
   let content;
 
@@ -23,6 +23,7 @@ const Main = () => {
       <h3 className="mb-3">Tokens</h3>
       {content}
       {isLoading && <p>.........................Loading</p>}
+      {lastPage && <LastPage>No Tokens yet</LastPage>}
     </>
   );
 };
@@ -34,9 +35,16 @@ const TokenCardFlex = styled.div`
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 
   @media (max-width: 464px) {
     gap: 23px;
   }
+`;
+
+const LastPage = styled.div`
+  margin-bottom: 80px;
+  text-align: center;
+  font-weight: bold;
+  color: red;
 `;

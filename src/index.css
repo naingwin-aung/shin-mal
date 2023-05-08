@@ -42,3 +42,7 @@ a, a:visited {
 .pagination button.active {
   background-color: #949393;
 }
+
+input {
+  outline: none;
+}

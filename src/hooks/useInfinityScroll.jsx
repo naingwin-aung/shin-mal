@@ -41,7 +41,7 @@ const useInfinityScroll = (url, limit) => {
     setIsLoading(false);
   };
 
-  return { value, isLoading };
+  return { value, isLoading, lastPage };
 };
 
 export default useInfinityScroll;
