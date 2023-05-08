@@ -25,7 +25,7 @@ const Menu = () => {
       </Wrapper>
       <MenuCardFlex>
         {value.map((menu, index) => (
-          <MenuCard key={index} valueName={menu.name} />
+          <MenuCard key={index} value={menu} showPrice={true} />
         ))}
       </MenuCardFlex>
     </>

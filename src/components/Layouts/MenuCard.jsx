@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { formatter } from "../../helper/helper";
 
-const MenuCard = ({ valueName, onClick }) => {
+const MenuCard = ({ value, onClick, showPrice = false }) => {
   return (
     <TokenCardWrapper onClick={onClick}>
-      <MenuName>{valueName}</MenuName>
+      <MenuName>{value.name}</MenuName>
+      {showPrice && <MenuPrice>{formatter.format(value.price)} Ks</MenuPrice>}
     </TokenCardWrapper>
   );
 };
@@ -16,6 +18,8 @@ const TokenCardWrapper = styled.div`
   border: 1.5px solid black;
   border-radius: 5px;
   display: flex;
+  gap: 18px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -30,5 +34,10 @@ const TokenCardWrapper = styled.div`
 
 const MenuName = styled.div`
   font-size: 18px;
+  font-weight: bold;
+`;
+
+const MenuPrice = styled.div`
+  font-size: 20px;
   font-weight: bold;
 `;

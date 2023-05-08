@@ -15,7 +15,7 @@ const Menu = () => {
     <CategoryCardFlex>
       {value.map((category, index) => (
         <Link key={index} to={`/token/${id}/category/${category.id}/menu`}>
-          <MenuCard valueName={category.name} />
+          <MenuCard value={category} />
         </Link>
       ))}
     </CategoryCardFlex>
