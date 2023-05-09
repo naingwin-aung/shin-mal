@@ -1,7 +1,20 @@
 import { Outlet, Link } from "react-router-dom";
 import styled from "styled-components";
+import { ToastContainer } from "react-toastify";
 
 const DefaultLayout = () => {
+  const customToastStyle = {
+    width: "70%", // change the width to 500px
+    marginBottom: "45px", // change the margin bottom to 20px
+    textAlign: "center",
+  };
+
+  const customToastContainerStyle = {
+    bottom: "20px", // position the container at the bottom of the screen
+    left: "16%",
+    textAlign: "center", // center the toasts horizontally
+  };
+
   return (
     <div>
       <BottomNav>
@@ -21,6 +34,10 @@ const DefaultLayout = () => {
       </BottomNav>
       <MainWrapper>
         <Outlet />
+        <ToastContainer
+          style={customToastContainerStyle}
+          toastStyle={customToastStyle}
+        />
       </MainWrapper>
     </div>
   );

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
 
-const MenuCard = ({ value, onClick, showPrice = false }) => {
+const MenuCard = ({ value, onStoreCart, showPrice = false }) => {
   return (
-    <TokenCardWrapper onClick={onClick}>
+    <TokenCardWrapper onClick={onStoreCart}>
       <MenuName>{value.name}</MenuName>
       {showPrice && <MenuPrice>{formatter.format(value.price)} Ks</MenuPrice>}
     </TokenCardWrapper>

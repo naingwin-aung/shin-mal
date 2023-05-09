@@ -23,7 +23,7 @@ const Main = () => {
       <h3 className="mb-3">Tokens</h3>
       {content}
       {isLoading && <p>.........................Loading</p>}
-      {lastPage && <LastPage>No Tokens yet</LastPage>}
+      {!isLoading && lastPage && <LastPage>No Tokens yet</LastPage>}
     </>
   );
 };

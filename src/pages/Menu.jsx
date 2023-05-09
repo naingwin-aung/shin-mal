@@ -2,14 +2,29 @@ import styled from "styled-components";
 import MenuCard from "../components/Layouts/MenuCard";
 import useInfinityScroll from "../hooks/useInfinityScroll";
 import { useParams, useNavigate } from "react-router-dom";
+import axiosClient from "../axios-client";
+import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../helper/helper";
 
 const Menu = () => {
   const navigate = useNavigate();
-  const { categoryId } = useParams();
+  const { id, categoryId } = useParams();
   const { value, isLoading } = useInfinityScroll(
     `/categories/${categoryId}/menus`,
     "15"
   );
+
+  const storeCart = async (menu) => {
+    const payload = {
+      token_id: id,
+      menu_id: menu.id,
+    };
+
+    const { data } = await axiosClient.post("/carts", payload);
+    if (data.success) {
+      notify();
+    }
+  };
 
   let content;
 
@@ -25,7 +40,12 @@ const Menu = () => {
       </Wrapper>
       <MenuCardFlex>
         {value.map((menu, index) => (
-          <MenuCard key={index} value={menu} showPrice={true} />
+          <MenuCard
+            key={index}
+            value={menu}
+            showPrice={true}
+            onStoreCart={storeCart.bind(null, menu)}
+          />
         ))}
       </MenuCardFlex>
     </>
