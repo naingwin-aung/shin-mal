@@ -1,6 +1,8 @@
 import { Outlet, Link } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer } from "react-toastify";
+import TokenSharpIcon from "@mui/icons-material/TokenSharp";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const DefaultLayout = () => {
   const customToastStyle = {
@@ -15,18 +17,20 @@ const DefaultLayout = () => {
     textAlign: "center", // center the toasts horizontally
   };
 
+  const iconStyle = { color: "white", fontSize: "28px" };
+
   return (
     <div>
       <BottomNav>
         <Wrapper>
           <IconWrapper>
             <Link to="/">
-              <span className="material-symbols-outlined">home</span>
+              <TokenSharpIcon style={iconStyle} />
             </Link>
           </IconWrapper>
           <IconWrapper>
             <Link to="/orders">
-              <span className="material-symbols-outlined">home</span>
+              <AccountBalanceWalletIcon style={iconStyle} />
             </Link>
           </IconWrapper>
           <IconWrapper>
