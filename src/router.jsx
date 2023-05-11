@@ -3,6 +3,7 @@ import DefaultLayout from "./components/Layouts/DefaultLayouts";
 import Main from "./pages/Main";
 import Category from "./pages/Category";
 import Menu from "./pages/Menu";
+import Order from "./pages/Order";
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Login from "./pages/auth/Login";
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/token/:id/category/:categoryId/menu",
         element: <Menu />,
+      },
+      {
+        path: "/orders",
+        element: <Order />,
       },
     ],
   },

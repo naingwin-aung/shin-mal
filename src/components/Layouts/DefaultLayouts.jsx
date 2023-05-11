@@ -25,7 +25,9 @@ const DefaultLayout = () => {
             </Link>
           </IconWrapper>
           <IconWrapper>
-            <span className="material-symbols-outlined">home</span>
+            <Link to="/orders">
+              <span className="material-symbols-outlined">home</span>
+            </Link>
           </IconWrapper>
           <IconWrapper>
             <span className="material-symbols-outlined">home</span>
