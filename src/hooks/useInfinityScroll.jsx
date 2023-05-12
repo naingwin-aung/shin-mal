@@ -5,7 +5,7 @@ const useInfinityScroll = (url, limit) => {
   const [value, setValue] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastPage, setLastPage] = useState(false);
+  const [canLoadMore, setCanLoadMore] = useState(true);
 
   useEffect(() => {
     getData();
@@ -28,7 +28,7 @@ const useInfinityScroll = (url, limit) => {
   }, []);
 
   const getData = async () => {
-    if (!lastPage) {
+    if (canLoadMore) {
       const { data } = await axiosClient.get(url, {
         params: {
           page: currentPage,
@@ -36,12 +36,12 @@ const useInfinityScroll = (url, limit) => {
         },
       });
       setValue((prev) => [...prev, ...data.data]);
-      setLastPage(data.data.length === 0);
+      setCanLoadMore(data.canLoadMore);
     }
     setIsLoading(false);
   };
 
-  return { value, isLoading, lastPage };
+  return { value, isLoading, canLoadMore };
 };
 
 export default useInfinityScroll;

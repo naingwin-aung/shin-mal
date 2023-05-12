@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import TokenCard from "../components/TokenCard";
 import { Link } from "react-router-dom";
-import useInfinityScroll from "../hooks/useInfinityScroll";
+import TokenCard from "../../components/TokenCard";
+import useInfinityScroll from "../../hooks/useInfinityScroll";
 
 const Order = () => {
-  const { value, isLoading, lastPage } = useInfinityScroll(
+  const { value, isLoading, canLoadMore } = useInfinityScroll(
     "/carts-tokens",
     "21"
   );
@@ -14,7 +14,7 @@ const Order = () => {
   content = (
     <TokenCardFlex>
       {value.map((number, index) => (
-        <Link to={``} key={index}>
+        <Link to={`/orders/${number.id}`} key={index}>
           <TokenCard number={number.token.number} />
         </Link>
       ))}
@@ -23,10 +23,10 @@ const Order = () => {
 
   return (
     <>
-      <h3 className="mb-3">Orders</h3>
+      {value.length > 0 && <h3 className="mb-3">Orders</h3>}
       {content}
       {isLoading && <p>.........................Loading</p>}
-      {!isLoading && lastPage && <LastPage>No Tokens yet</LastPage>}
+      {!isLoading && !canLoadMore && <LastPage>No Tokens yet</LastPage>}
     </>
   );
 };

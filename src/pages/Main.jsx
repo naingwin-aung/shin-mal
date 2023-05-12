@@ -46,7 +46,7 @@ const TokenCardFlex = styled.div`
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   @media (max-width: 464px) {
     gap: 23px;

@@ -3,9 +3,10 @@ import DefaultLayout from "./components/Layouts/DefaultLayouts";
 import Main from "./pages/Main";
 import Category from "./pages/Category";
 import Menu from "./pages/Menu";
-import Order from "./pages/Order";
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Login from "./pages/auth/Login";
+import Order from "./pages/Order/Order";
+import OrderDetail from "./pages/Order/OrderDetail";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Order />,
+      },
+      {
+        path: "/orders/:id",
+        element: <OrderDetail />,
       },
     ],
   },
