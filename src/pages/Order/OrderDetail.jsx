@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 
@@ -8,15 +8,14 @@ const OrderDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const { data } = await axiosClient.get(`/carts/${id}`);
+      setOrder(data.data);
+      setIsLoading(false);
+    };
     getData();
-  }, []);
-
-  const getData = async () => {
-    setIsLoading(true);
-    const { data } = await axiosClient.get(`/carts/${id}`);
-    setOrder(data.data);
-    setIsLoading(false);
-  };
+  }, [id]);
 
   if (isLoading) {
     return <p>Loading...........</p>;
