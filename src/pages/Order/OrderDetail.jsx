@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
+import OrderMenuItem from "../../components/Order/OrderMenuItem";
 
 const OrderDetail = () => {
   const [order, setOrder] = useState(null);
@@ -22,19 +23,35 @@ const OrderDetail = () => {
   const totalAmount =
     order && order.menus.reduce((acc, menu) => acc + menu.total_price, 0);
 
-  const updateQuantity = (index, change) => {
-    const updatedMenus = [...order.menus];
-    const updatedMenu = { ...updatedMenus[index] };
-    updatedMenu.quantity += change;
-    updatedMenu.total_price = updatedMenu.price * updatedMenu.quantity;
-    updatedMenus[index] = updatedMenu;
-    const updatedCartData = { ...order, menus: updatedMenus };
-    setOrder(updatedCartData);
+  const updateQuantity = (menu, newQuantity) => {
+    const updatedMenus = order.menus.map((m) => {
+      if (m.name === menu.name) {
+        return {
+          ...m,
+          quantity: newQuantity,
+          total_price: newQuantity * m.price,
+        };
+      } else {
+        return m;
+      }
+    });
+    setOrder((prev) => ({ ...prev, menus: updatedMenus }));
   };
+
+  // const updateQuantity = (index, change) => {
+  //   const updatedMenus = [...order.menus];
+  //   const updatedMenu = { ...updatedMenus[index] };
+  //   updatedMenu.quantity += change;
+  //   updatedMenu.total_price = updatedMenu.price * updatedMenu.quantity;
+  //   updatedMenus[index] = updatedMenu;
+  //   const updatedCartData = { ...order, menus: updatedMenus };
+  //   setOrder(updatedCartData);
+  // };
 
   if (isLoading) {
     return <p>Loading...........</p>;
   }
+
   return (
     <>
       {order && (
@@ -48,30 +65,11 @@ const OrderDetail = () => {
             </TokenLine>
             {order.menus.length > 0 &&
               order.menus.map((menu, index) => (
-                <MenuWrapper key={index}>
-                  <EachMenu>
-                    <MenuName>{menu.name}</MenuName>
-                    <div>({formatter.format(menu.price)})</div>
-                  </EachMenu>
-                  <EachMenu>{formatter.format(menu.total_price)}</EachMenu>
-                  <QtyItem>
-                    <QtyButton
-                      onClick={() => {
-                        updateQuantity(index, -1);
-                      }}
-                    >
-                      -
-                    </QtyButton>
-                    {menu.quantity}
-                    <QtyButton
-                      onClick={() => {
-                        updateQuantity(index, 1);
-                      }}
-                    >
-                      +
-                    </QtyButton>
-                  </QtyItem>
-                </MenuWrapper>
+                <OrderMenuItem
+                  key={index}
+                  menu={menu}
+                  onUpdateQuantity={updateQuantity}
+                />
               ))}
             <DotLine />
             <PriceWrapper>
@@ -87,22 +85,6 @@ const OrderDetail = () => {
 
 export default OrderDetail;
 
-const QtyButton = styled.button`
-  width: 30px;
-  height: 31px;
-  border: 1px solid #ddd;
-  outline: none;
-  margin: 10px;
-  font-size: 20px;
-`;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 0;
-`;
-
 const PriceWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -112,21 +94,6 @@ const PriceWrapper = styled.div`
 
 const DotLine = styled.div`
   border-bottom: 1px dashed #aaa;
-`;
-
-const MenuName = styled.div`
-  margin-bottom: 8px;
-`;
-
-const EachMenu = styled.div`
-  font-size: 15px;
-  word-wrap: break-word;
-  max-width: 28%;
-`;
-
-const QtyItem = styled.div`
-  min-width: 28%;
-  max-width: 40%;
 `;
 
 const Dash = styled.div`
