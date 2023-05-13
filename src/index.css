@@ -46,3 +46,7 @@ a, a:visited {
 input {
   outline: none;
 }
+
+.text-right {
+  text-align: right;
+}
