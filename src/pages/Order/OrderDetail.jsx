@@ -23,19 +23,27 @@ const OrderDetail = () => {
   const totalAmount =
     order && order.menus.reduce((acc, menu) => acc + menu.total_price, 0);
 
-  const updateQuantity = (menu, newQuantity) => {
-    const updatedMenus = order.menus.map((m) => {
-      if (m.name === menu.name) {
-        return {
-          ...m,
-          quantity: newQuantity,
-          total_price: newQuantity * m.price,
-        };
-      } else {
-        return m;
-      }
-    });
-    setOrder((prev) => ({ ...prev, menus: updatedMenus }));
+  const updateQuantity = async (menu, newQuantity) => {
+    const payload = {
+      menu_id: menu.id,
+      quantity: newQuantity,
+    };
+
+    const { data } = await axiosClient.put(`/carts/${order.cart_id}`, payload);
+    if (data.success) {
+      const updatedMenus = order.menus.map((m) => {
+        if (m.id === menu.id) {
+          return {
+            ...m,
+            quantity: newQuantity,
+            total_price: newQuantity * m.price,
+          };
+        } else {
+          return m;
+        }
+      });
+      setOrder((prev) => ({ ...prev, menus: updatedMenus }));
+    }
   };
 
   // const updateQuantity = (index, change) => {

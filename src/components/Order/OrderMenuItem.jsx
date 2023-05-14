@@ -1,23 +1,31 @@
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useDebounce from "../../hooks/useDebounce";
 
 const OrderMenuItem = ({ menu, onUpdateQuantity }) => {
   const [quantity, setQuantity] = useState(menu.quantity);
+  const [lastQuantity, setLastQuantity] = useState(0);
+
+  const debounceQuantity = useDebounce(lastQuantity, 800);
+
+  useEffect(() => {
+    if (debounceQuantity) {
+      onUpdateQuantity(menu, debounceQuantity);
+    }
+  }, [debounceQuantity]);
 
   const handlePlusClick = () => {
-    setQuantity(quantity + 1);
-    setTimeout(() => {
-      onUpdateQuantity(menu, quantity + 1);
-    }, 800);
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    setLastQuantity(newQuantity);
   };
 
   const handleMinusClick = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
-      setTimeout(() => {
-        onUpdateQuantity(menu, quantity - 1);
-      }, 800);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      setLastQuantity(newQuantity);
     }
   };
 

@@ -18,6 +18,7 @@ const Menu = () => {
     const payload = {
       token_id: id,
       menu_id: menu.id,
+      quantity: 1,
     };
 
     const { data } = await axiosClient.post("/carts", payload);
