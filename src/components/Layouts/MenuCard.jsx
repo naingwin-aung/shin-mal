@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
+import PropTypes from "prop-types";
 
 const MenuCard = ({ value, onStoreCart, showPrice = false }) => {
   return (
@@ -11,6 +12,12 @@ const MenuCard = ({ value, onStoreCart, showPrice = false }) => {
 };
 
 export default MenuCard;
+
+MenuCard.propTypes = {
+  value: PropTypes.object,
+  onStoreCart: PropTypes.func,
+  showPrice: PropTypes.bool,
+};
 
 const TokenCardWrapper = styled.div`
   min-width: 130px;

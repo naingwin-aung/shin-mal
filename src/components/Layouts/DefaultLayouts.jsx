@@ -7,12 +7,12 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 const DefaultLayout = () => {
   const customToastStyle = {
     width: "70%", // change the width to 500px
-    marginBottom: "45px", // change the margin bottom to 20px
+    marginBottom: "15px", // change the margin bottom to 20px
     textAlign: "center",
   };
 
   const customToastContainerStyle = {
-    bottom: "20px", // position the container at the bottom of the screen
+    bottom: "44px", // position the container at the bottom of the screen
     left: "16%",
     textAlign: "center", // center the toasts horizontally
   };

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Pagination = ({ total, limit, onClick, currentPage }) => {
   return (
     <div className="pagination">
@@ -17,3 +19,10 @@ const Pagination = ({ total, limit, onClick, currentPage }) => {
 };
 
 export default Pagination;
+
+Pagination.propTypes = {
+  total: PropTypes.number,
+  limit: PropTypes.number,
+  onClick: PropTypes.func,
+  currentPage: PropTypes.number,
+};

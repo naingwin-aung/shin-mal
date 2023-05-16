@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { formatter } from "../../helper/helper";
 import { useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
+import PropTypes from "prop-types";
 
 const OrderMenuItem = ({ menu, onUpdateQuantity }) => {
   const [quantity, setQuantity] = useState(menu.quantity);
   const [lastQuantity, setLastQuantity] = useState(0);
 
-  const debounceQuantity = useDebounce(lastQuantity, 800);
+  const debounceQuantity = useDebounce(lastQuantity);
 
   useEffect(() => {
     if (debounceQuantity) {
@@ -48,6 +49,11 @@ const OrderMenuItem = ({ menu, onUpdateQuantity }) => {
 };
 
 export default OrderMenuItem;
+
+OrderMenuItem.propTypes = {
+  menu: PropTypes.object,
+  onUpdateQuantity: PropTypes.func,
+};
 
 const QtyButton = styled.button`
   width: 30px;

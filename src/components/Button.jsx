@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 function Button({ text, onClick, bgColor, textColor, align }) {
   return (
@@ -11,6 +12,14 @@ function Button({ text, onClick, bgColor, textColor, align }) {
 }
 
 export default Button;
+
+Button.propTypes = {
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+  bgColor: PropTypes.string,
+  textColor: PropTypes.string,
+  align: PropTypes.string,
+};
 
 const ButtonWrapper = styled.div`
   text-align: ${(props) => props.align || "left"};

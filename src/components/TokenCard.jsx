@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const TokenCard = ({ number, onClick }) => {
   return (
@@ -9,6 +10,11 @@ const TokenCard = ({ number, onClick }) => {
 };
 
 export default TokenCard;
+
+TokenCard.propTypes = {
+  number: PropTypes.number,
+  onClick: PropTypes.func,
+};
 
 const TokenCardWrapper = styled.div`
   width: 110px;

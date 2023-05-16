@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
+import Button from "../../components/Button";
 import OrderMenuItem from "../../components/Order/OrderMenuItem";
+import { Link } from "react-router-dom";
 
 const OrderDetail = () => {
   const [order, setOrder] = useState(null);
@@ -46,16 +48,6 @@ const OrderDetail = () => {
     }
   };
 
-  // const updateQuantity = (index, change) => {
-  //   const updatedMenus = [...order.menus];
-  //   const updatedMenu = { ...updatedMenus[index] };
-  //   updatedMenu.quantity += change;
-  //   updatedMenu.total_price = updatedMenu.price * updatedMenu.quantity;
-  //   updatedMenus[index] = updatedMenu;
-  //   const updatedCartData = { ...order, menus: updatedMenus };
-  //   setOrder(updatedCartData);
-  // };
-
   if (isLoading) {
     return <p>Loading...........</p>;
   }
@@ -66,11 +58,16 @@ const OrderDetail = () => {
         <>
           <h3 className="mb-3">Order Detail</h3>
           <DetailWrapper>
-            <TokenLine>
-              <div>Token Number</div>
-              <Dash>-</Dash>
-              <TokenSpan>{order.token_id}</TokenSpan>
-            </TokenLine>
+            <TokenWrapper>
+              <TokenLine>
+                <div>No</div>
+                <Dash>-</Dash>
+                <TokenSpan>{order.token_id}</TokenSpan>
+              </TokenLine>
+              <Link to={`/token/${order.token_id}/category`}>
+                <Button text="+ Edit Order" />
+              </Link>
+            </TokenWrapper>
             {order.menus.length > 0 &&
               order.menus.map((menu, index) => (
                 <OrderMenuItem
@@ -93,6 +90,12 @@ const OrderDetail = () => {
 
 export default OrderDetail;
 
+const TokenWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
 const PriceWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -106,7 +109,7 @@ const DotLine = styled.div`
 
 const Dash = styled.div`
   margin-top: 4px;
-  margin-left: 20px;
+  margin-left: 10px;
 `;
 
 const DetailWrapper = styled.div`
@@ -117,12 +120,11 @@ const DetailWrapper = styled.div`
 const TokenLine = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
 `;
 
 const TokenSpan = styled.div`
   font-weight: bold;
   font-size: 20px;
   margin-top: 3px;
-  margin-left: 20px;
+  margin-left: 10px;
 `;
