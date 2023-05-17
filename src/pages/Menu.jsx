@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import MenuCard from "../components/Layouts/MenuCard";
 import useInfinityScroll from "../hooks/useInfinityScroll";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import "react-toastify/dist/ReactToastify.css";
 import { notify } from "../helper/helper";
+import NavBar from "../components/NavBar";
 
 const Menu = () => {
-  const navigate = useNavigate();
   const { id, categoryId } = useParams();
   const { value, isLoading } = useInfinityScroll(
     `/categories/${categoryId}/menus`,
@@ -31,14 +31,7 @@ const Menu = () => {
 
   content = (
     <>
-      <Wrapper>
-        <div onClick={() => navigate(-1)}>
-          <span className="material-symbols-outlined">arrow_back_ios</span>
-        </div>
-        <h3 onClick={() => navigate(-1)} className="mb-4">
-          {value[0]?.category?.name}
-        </h3>
-      </Wrapper>
+      <NavBar text={value[0]?.category?.name} />
       <MenuCardFlex>
         {value.map((menu, index) => (
           <MenuCard
@@ -61,21 +54,6 @@ const Menu = () => {
 };
 
 export default Menu;
-
-const Wrapper = styled.div`
-  display: flex;
-
-  span {
-    font-size: 16px;
-    margin-top: 8px;
-    margin-right: 13px;
-  }
-
-  span,
-  h3 {
-    cursor: pointer;
-  }
-`;
 
 const MenuCardFlex = styled.div`
   display: flex;

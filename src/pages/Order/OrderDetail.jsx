@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import styled from "styled-components";
 import { formatter } from "../../helper/helper";
 import Button from "../../components/Button";
 import OrderMenuItem from "../../components/Order/OrderMenuItem";
 import { Link } from "react-router-dom";
+import NavBar from "../../components/NavBar";
 
 const OrderDetail = () => {
   const [order, setOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -48,6 +50,13 @@ const OrderDetail = () => {
     }
   };
 
+  const checkoutHandler = async () => {
+    const { data } = await axiosClient.post(`/carts/${order.cart_id}/checkout`);
+    if (data.success) {
+      navigate("/orders");
+    }
+  };
+
   if (isLoading) {
     return <p>Loading...........</p>;
   }
@@ -56,7 +65,7 @@ const OrderDetail = () => {
     <>
       {order && (
         <>
-          <h3 className="mb-3">Order Detail</h3>
+          <NavBar text="Order Detail" />
           <DetailWrapper>
             <TokenWrapper>
               <TokenLine>
@@ -82,6 +91,9 @@ const OrderDetail = () => {
               <div>{formatter.format(totalAmount)}</div>
             </PriceWrapper>
           </DetailWrapper>
+          <CheckoutBtn onClick={checkoutHandler}>
+            <div>Checkout</div>
+          </CheckoutBtn>
         </>
       )}
     </>
@@ -89,6 +101,21 @@ const OrderDetail = () => {
 };
 
 export default OrderDetail;
+
+const CheckoutBtn = styled.div`
+  position: fixed;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  padding: 20px 0;
+  margin: 8px 5px;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.9);
+`;
 
 const TokenWrapper = styled.div`
   display: flex;
@@ -114,7 +141,7 @@ const Dash = styled.div`
 
 const DetailWrapper = styled.div`
   margin-top: 30px;
-  margin-bottom: 80px;
+  margin-bottom: 8.5rem;
 `;
 
 const TokenLine = styled.div`
