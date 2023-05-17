@@ -4,10 +4,7 @@ import TokenCard from "../../components/TokenCard";
 import useInfinityScroll from "../../hooks/useInfinityScroll";
 
 const Order = () => {
-  const { value, isLoading, canLoadMore } = useInfinityScroll(
-    "/carts-tokens",
-    "21"
-  );
+  const { value, isLoading } = useInfinityScroll("/carts-tokens", "21");
 
   let content;
 
@@ -26,7 +23,7 @@ const Order = () => {
       {value.length > 0 && <h3 className="mb-3">Orders</h3>}
       {content}
       {isLoading && <p>.........................Loading</p>}
-      {!isLoading && !canLoadMore && <LastPage>No Tokens yet</LastPage>}
+      {value.length === 0 && !isLoading && <p>Not Found</p>}
     </>
   );
 };

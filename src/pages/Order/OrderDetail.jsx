@@ -74,7 +74,7 @@ const OrderDetail = () => {
                 <TokenSpan>{order.token_id}</TokenSpan>
               </TokenLine>
               <Link to={`/token/${order.token_id}/category`}>
-                <Button text="+ Edit Order" />
+                <Button text="+" fontSize="23px" borderRadius="50%" />
               </Link>
             </TokenWrapper>
             {order.menus.length > 0 &&
