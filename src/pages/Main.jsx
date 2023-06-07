@@ -23,7 +23,7 @@ const Main = () => {
           ))}
       </TokenCardFlex>
       {value.length === 0 && <p>Loading..........</p>}
-      {value.length > 0 && canLoadMore && (
+      {!isLoading && canLoadMore && value.length > 0 && (
         <Button text="Load More" onClick={loadMore} align="center" />
       )}
     </MainWrapper>
@@ -33,7 +33,9 @@ const Main = () => {
     <>
       <h3 className="mb-3">Tokens</h3>
       {content}
-      {isLoading && <p>.........................Loading</p>}
+      {isLoading && (
+        <p style={{ marginBottom: "80px" }}>.........................Loading</p>
+      )}
       {!isLoading && !canLoadMore && <LastPage>No Tokens yet</LastPage>}
     </>
   );

@@ -41,10 +41,3 @@ const TokenCardFlex = styled.div`
     gap: 23px;
   }
 `;
-
-const LastPage = styled.div`
-  margin-bottom: 80px;
-  text-align: center;
-  font-weight: bold;
-  color: red;
-`;
